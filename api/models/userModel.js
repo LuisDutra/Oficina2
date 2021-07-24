@@ -10,14 +10,14 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true, required: true },
   password: { type: String, select: false, required: true },
   isActive: { type: Boolean, default: true },
-  isAdmim: Boolean,
+  isAdmin: Boolean,
   location: {
       city: String,
       address: String,
       zipcode: String,  
     },
-  whishlist: mongoose.ObjectId,
-  plants: mongoose.ObjectId,
+  whishlist: [mongoose.ObjectId],
+  plants: [mongoose.ObjectId],
   createAt: { type: Date, default: Date.now },
   updateAt: {type: Date, default: Date.now },
 });
