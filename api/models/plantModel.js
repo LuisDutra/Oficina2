@@ -14,6 +14,8 @@ const PlantSchema = new Schema({
  hints: String,
  culinaryHints: String,
  picture: mongoose.ObjectId,
+ isApproved: { type: Boolean, default: false },
+ isActive: { type: Boolean, default: true },
  createAt: { type: Date, default: Date.now },
  updateAt: {type: Date, default: Date.now },
 });
