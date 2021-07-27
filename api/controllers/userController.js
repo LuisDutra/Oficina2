@@ -7,7 +7,7 @@ const infoUser = async (req, res) => {
 };
 
 const updateUser = async ({ params, body }, res) => {
-  const user = await UserModel.findOneAndUpdate(params.id, body);
+  const user = await UserModel.findOneAndUpdate(params.id, body, {new: true});
 
   return res.json({ message: "usuário atualizado", user });
 };

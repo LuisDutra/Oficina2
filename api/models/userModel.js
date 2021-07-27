@@ -16,10 +16,10 @@ const UserSchema = new Schema({
       address: String,
       zipcode: String,  
     },
-  whishlist: [mongoose.ObjectId],
+  wishlist: [mongoose.ObjectId],
   plants: [mongoose.ObjectId],
   createAt: { type: Date, default: Date.now },
-  updateAt: {type: Date, default: Date.now },
+  updateAt: { type: Date, default: Date.now },
 });
 
 const UserModel = mongoose.model("User", UserSchema);

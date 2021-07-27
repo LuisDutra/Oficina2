@@ -1,6 +1,13 @@
 const PlantModel = require("../models/plantModel");
 const UserModel = require("../models/userModel");
 
+const getById = async ({ query }, res) => {
+  console.log(query.plantId);
+  const plant = await PlantModel.findOne({ _id: query.plantId });
+
+  res.send({ plant });
+};
+
 const registerPlant = async ({ body }, res) => {
     const plant = await PlantModel.create(body);
 
@@ -20,10 +27,11 @@ const updatePlant = async (req, res) => {
     return res.status(401).json({ success: false, message: 'this user is not admin' });
   }
 
-  const plant = await PlantModel.findOneAndUpdate(req.params.id, req.body);
+  const plant = await PlantModel.findOneAndUpdate(req.params.id, req.body, {new: true});
 
   return res.json({ message: "planta atualizada com sucesso", plant });
 };
 
+exports.info = getById;
 exports.register = registerPlant;
 exports.update = updatePlant;
