@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
+const morgan = require("morgan");
+
 const routes = require("./routes/index");
 
 const port = process.env.PORT || 8080;
@@ -10,6 +12,7 @@ require("./database/index");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 
 // Routes
 routes(app);
