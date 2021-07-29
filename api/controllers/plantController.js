@@ -8,9 +8,9 @@ const getById = async ({ query }, res) => {
 };
 
 const getAll = async ({}, res) => {
-  const plant = await PlantModel.find();
+  const plants = await PlantModel.find();
 
-  res.send({ plant });
+  res.send({ plants });
 };
 
 const registerPlant = async ({ body }, res) => {
