@@ -31,9 +31,7 @@ const addPlant = async (req, res) => {
     return res.status(400).json({ success: false, message: 'invalid plant' });
   }
 
-  const user = await UserModel.findOne({ _id: userId });
-
-  if(!user) {
+  if(!await UserModel.findOne({ _id: userId })) {
     return res.status(401).json({ success: false, message: 'invalid authentication' });
   }
 
@@ -43,9 +41,7 @@ const addPlant = async (req, res) => {
     return res.status(400).json({ success: false, message: 'invalid plant' });
   }
 
-  const userPlant = await UserModel.find({ _id: userId, plants: { $in: [plantId] } });
-
-  if(userPlant) {
+  if(await UserModel.findOne({ _id: userId, plants: plantId })) {
     return res.status(400).json({ success: false, message: 'plant already added to profile' });
   }
 
