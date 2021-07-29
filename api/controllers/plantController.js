@@ -7,6 +7,12 @@ const getById = async ({ query }, res) => {
   res.send({ plant });
 };
 
+const getAll = async ({}, res) => {
+  const plant = await PlantModel.find();
+
+  res.send({ plant });
+};
+
 const registerPlant = async ({ body }, res) => {
   try{
     const plant = await PlantModel.create(body);
@@ -38,3 +44,4 @@ const updatePlant = async (req, res) => {
 exports.info = getById;
 exports.register = registerPlant;
 exports.update = updatePlant;
+exports.getAll = getAll;

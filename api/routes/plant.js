@@ -9,5 +9,6 @@ router.use(authMiddleware);
 router.get("/info", plantController.info);
 router.post("/register", plantController.register);
 router.put("/update", plantController.update);
+router.get("/getAll", plantController.getAll);
 
 module.exports = router;
