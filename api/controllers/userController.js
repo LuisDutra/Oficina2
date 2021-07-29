@@ -50,6 +50,35 @@ const addPlant = async (req, res) => {
   return res.json({ message: "planta adicionada", userUpdate });
 };
 
+const deletePlant = async (req, res) => {
+  const userId = req.userId;
+  const plantId = req.query.plantId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  if (!plantId) {
+    return res.status(400).json({ success: false, message: 'invalid plant' });
+  }
+
+  if(!await UserModel.findOne({ _id: userId })) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  const plant = await PlantModel.findOne({ _id: plantId });
+
+  if(!plant) {
+    return res.status(400).json({ success: false, message: 'invalid plant' });
+  }
+
+  if(await UserModel.findOne({ _id: userId, plants: plantId })) {
+    const userUpdate = await UserModel.findByIdAndUpdate(userId, { $pull: { plants: plant._id }}, { new: true, upsert: true });
+
+    return res.json({ message: "planta deletada", userUpdate });
+  }
+};
+
 const getUserPlants = async(req, res) => {
   const userId = req.query.userId;
 
@@ -71,5 +100,6 @@ const getUserPlants = async(req, res) => {
 exports.info = infoUser;
 exports.update = updateUser;
 exports.delete = deleteUser;
+exports.deletePlant = deletePlant;
 exports.addPlant = addPlant;
 exports.getUserPlants = getUserPlants;

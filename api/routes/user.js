@@ -10,6 +10,7 @@ router.get("/info", userController.info);
 router.get("/plants", userController.getUserPlants);
 router.post("/update", userController.update);
 router.delete("/delete", userController.delete);
+router.delete("/deletePlant", userController.deletePlant)
 router.put("/addPlant", userController.addPlant);
 
 module.exports = router;
