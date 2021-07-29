@@ -50,7 +50,26 @@ const addPlant = async (req, res) => {
   return res.json({ message: "planta adicionada", userUpdate });
 };
 
+const getUserPlants = async(req, res) => {
+  const userId = req.query.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'must provide an id' });
+  }
+
+  const user = await UserModel.findOne({ _id: req.userId }, {plants: 1});
+
+  if (!user) {
+    return res.status(401).json({ success: false, message: 'user not found' });
+  }
+
+  const plants = await PlantModel.find({_id: {$in: user.plants}});
+
+  return res.json({ plants });
+}
+
 exports.info = infoUser;
 exports.update = updateUser;
 exports.delete = deleteUser;
 exports.addPlant = addPlant;
+exports.getUserPlants = getUserPlants;
