@@ -9,6 +9,6 @@ router.use(authMiddleware);
 router.get("/info", userController.info);
 router.post("/update", userController.update);
 router.delete("/delete", userController.delete);
-router.post("/addPlant", userController.addPlant);
+router.put("/addPlant", userController.addPlant);
 
 module.exports = router;
