@@ -13,6 +13,24 @@ const getAll = async ({}, res) => {
   res.send({ plants });
 };
 
+const getByName = async ({ query }, res) => {
+  const plantName = query.plantName;
+
+  const plants = await PlantModel.find({
+    "$or": [
+        { name: { '$regex': plantName, '$options': 'i' } },
+        { popularNames: { '$regex': plantName, '$options': 'i' } },
+        { scientificName: { '$regex': plantName, '$options': 'i' } }
+    ]
+  });
+
+  if(!plants || plants.length === 0) {
+    return res.status(400).json({ success: false, message: 'no plants were found' });
+  }
+
+  return res.json({ success: true, message: 'plants found in database', plants });
+};
+
 const registerPlant = async ({ body }, res) => {
   try{
     const plant = await PlantModel.create(body);
@@ -45,3 +63,4 @@ exports.info = getById;
 exports.register = registerPlant;
 exports.update = updatePlant;
 exports.getAll = getAll;
+exports.getByName = getByName;

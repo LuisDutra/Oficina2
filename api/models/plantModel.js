@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PlantSchema = new Schema({
  name: String,
- popularNames: [{type: String}],
+ popularNames: [{ type: String }],
  scientificName: String,
  description: String,
  instructions: {
@@ -19,6 +19,8 @@ const PlantSchema = new Schema({
  createAt: { type: Date, default: Date.now },
  updateAt: {type: Date, default: Date.now },
 });
+
+PlantSchema.index({name: 'text', popularNames: 'text', scientificName: 'text'});
 
 const PlantModel = mongoose.model("Plant", PlantSchema);
 
