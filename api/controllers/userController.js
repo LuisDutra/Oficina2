@@ -7,6 +7,29 @@ const infoUser = async (req, res) => {
   res.send({ user });
 };
 
+const getById = async ({ query }, res) => {
+  const user = await UserModel.findOne({ _id: query.userId });
+
+  res.send({ user });
+};
+
+const getByName = async ({ query }, res) => {
+  const userName = query.userName;
+
+  const user = await UserModel.find({
+    "$or": [
+        { "name.first": { '$regex': userName, '$options': 'i' } },
+        { "name.last": { '$regex': userName, '$options': 'i' } }
+    ]
+  });
+
+  if(!user || user.length === 0) {
+    return res.status(400).json({ success: false, message: 'no users were found' });
+  }
+
+  return res.json({ success: true, message: 'users found in database', user });
+};
+
 const updateUser = async ({ params, body }, res) => {
   const user = await UserModel.findOneAndUpdate(params.id, body, {new: true});
 
@@ -98,6 +121,8 @@ const getUserPlants = async(req, res) => {
 }
 
 exports.info = infoUser;
+exports.getById = getById;
+exports.getByName = getByName;
 exports.update = updateUser;
 exports.delete = deleteUser;
 exports.deletePlant = deletePlant;
