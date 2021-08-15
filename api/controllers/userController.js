@@ -1,5 +1,6 @@
 const UserModel = require("../models/userModel");
 const PlantModel = require("../models/plantModel");
+const CategoryModel = require("../models/CategoryModel");
 
 const infoUser = async (req, res) => {
   const user = await UserModel.findOne({ _id: req.userId });
@@ -120,6 +121,84 @@ const getUserPlants = async(req, res) => {
   return res.json({ plants });
 }
 
+const addWish = async (req, res) => {
+  const userId = req.userId;
+  const wishId = req.query.categoryId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  if (!wishId) {
+    return res.status(400).json({ success: false, message: 'invalid wish' });
+  }
+
+  if(!await UserModel.findOne({ _id: userId })) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  const wish = await CategoryModel.findOne({ _id: wishId });
+
+  if(!wish) {
+    return res.status(400).json({ success: false, message: 'invalid wish' });
+  }
+
+  if(await UserModel.findOne({ _id: userId, wishlist: wishId })) {
+    return res.status(400).json({ success: false, message: 'wish already added to profile' });
+  }
+
+  const userUpdate = await UserModel.findByIdAndUpdate(userId, { $push: { wishlist: [wishId] }}, { new: true, upsert: true });
+
+  return res.json({ message: "interesse adicionado", userUpdate });
+};
+
+const deleteWish = async (req, res) => {
+  const userId = req.userId;
+  const wishId = req.query.categoryId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  if (!wishId) {
+    return res.status(400).json({ success: false, message: 'invalid wish' });
+  }
+
+  if(!await UserModel.findOne({ _id: userId })) {
+    return res.status(401).json({ success: false, message: 'invalid authentication' });
+  }
+
+  const wish = await CategoryModel.findOne({ _id: wishId });
+
+  if(!wish) {
+    return res.status(400).json({ success: false, message: 'invalid wish' });
+  }
+
+  if(await UserModel.findOne({ _id: userId, wishlist: wishId })) {
+    const userUpdate = await UserModel.findByIdAndUpdate(userId, { $pull: { wishlist: wish.id }}, { new: true, upsert: true });
+
+    return res.json({ message: "interesse deletado", userUpdate });
+  }
+}
+
+const getUserWishes = async({ query }, res) => {
+  const userId = query.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'must provide an id' });
+  }
+
+  const user = await UserModel.findOne({ _id: userId }, {wishlist: 1});
+
+  if (!user) {
+    return res.status(401).json({ success: false, message: 'user not found' });
+  }
+
+  const wish = await CategoryModel.find({_id: {$in: user.wishlist}});
+
+  return res.json({ wish });
+}
+
 exports.info = infoUser;
 exports.getById = getById;
 exports.getByName = getByName;
@@ -128,3 +207,6 @@ exports.delete = deleteUser;
 exports.deletePlant = deletePlant;
 exports.addPlant = addPlant;
 exports.getUserPlants = getUserPlants;
+exports.addWish = addWish;
+exports.getWishes = getUserWishes;
+exports.deleteWish = deleteWish;

@@ -14,5 +14,8 @@ router.put("/update", userController.update);
 router.delete("/delete", userController.delete);
 router.delete("/deletePlant", userController.deletePlant)
 router.put("/addPlant", userController.addPlant);
+router.put("/addWish", userController.addWish);
+router.get("/getWishes", userController.getWishes);
+router.delete("/deleteWish", userController.deleteWish);
 
 module.exports = router;
