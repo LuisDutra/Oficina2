@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true, required: true },
   password: { type: String, select: false, required: true },
   isActive: { type: Boolean, default: true },
-  isAdmin: Boolean,
+  isAdmin: { type: Boolean, default: false },
   location: {
       city: String,
       address: String,
