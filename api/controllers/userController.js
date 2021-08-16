@@ -33,7 +33,6 @@ const getByName = async ({ query }, res) => {
 
 const updateUser = async ({ userId, body }, res) => {
   const user = await UserModel.findOneAndUpdate({ _id: userId }, body, {new: true});
-  console.log(user)
 
   return res.json({ message: "usuário atualizado", user });
 };
