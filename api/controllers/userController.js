@@ -31,8 +31,9 @@ const getByName = async ({ query }, res) => {
   return res.json({ success: true, message: 'users found in database', user });
 };
 
-const updateUser = async ({ params, body }, res) => {
-  const user = await UserModel.findOneAndUpdate(params.id, body, {new: true});
+const updateUser = async ({ userId, body }, res) => {
+  const user = await UserModel.findOneAndUpdate({ _id: userId }, body, {new: true});
+  console.log(user)
 
   return res.json({ message: "usuário atualizado", user });
 };
