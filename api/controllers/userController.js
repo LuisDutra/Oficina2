@@ -110,7 +110,7 @@ const getUserPlants = async(req, res) => {
     return res.status(401).json({ success: false, message: 'must provide an id' });
   }
 
-  const user = await UserModel.findOne({ _id: req.userId }, {plants: 1});
+  const user = await UserModel.findOne({ _id: userId }, {plants: 1});
 
   if (!user) {
     return res.status(401).json({ success: false, message: 'user not found' });
