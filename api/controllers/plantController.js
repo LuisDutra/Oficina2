@@ -73,8 +73,33 @@ const updatePlant = async (req, res) => {
   return res.json({ message: "planta atualizada com sucesso", plant });
 };
 
+const deletePlant = async (req, res) => {
+  const userId = req.userId;
+
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ success: false, message: "invalid authentication" });
+  }
+
+  const user = await UserModel.findOne({ _id: userId });
+
+  if (!user.isAdmin) {
+    return res
+      .status(401)
+      .json({ success: false, message: "this user is not admin" });
+  }
+
+  const plant = await PlantModel.deleteOne(
+    { _id: req.query.plantId }
+  );
+
+  return res.json({ message: "planta excluida com sucesso", plant });
+};
+
 exports.info = getById;
 exports.register = registerPlant;
 exports.update = updatePlant;
+exports.delete = deletePlant;
 exports.getAll = getAll;
 exports.getByName = getByName;

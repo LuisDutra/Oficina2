@@ -5,7 +5,7 @@ const Json2csvParser = require("json2csv").Parser;
 const fs = require("fs");
 
 const getAllPlantsReports = async ({}, res) => {
-    const plants = await PlantModel.findOne({ _id: "61035a89d1f7ae8448b9e33c"});
+    const plants = await PlantModel.find();
 
 
     const json2csvParser = new Json2csvParser({ header: false });

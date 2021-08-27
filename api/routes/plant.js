@@ -9,6 +9,7 @@ router.use(authMiddleware);
 router.get("/info", plantController.info);
 router.post("/register", plantController.register);
 router.put("/update", plantController.update);
+router.delete("/delete", plantController.delete);
 router.get("/getAll", plantController.getAll);
 router.get("/getByName", plantController.getByName);
 
