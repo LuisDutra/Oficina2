@@ -13,6 +13,7 @@ const PlantSchema = new Schema({
  },
  hints: String,
  culinaryHints: String,
+ img: String,
  picture: mongoose.ObjectId,
  isApproved: { type: Boolean, default: false },
  isActive: { type: Boolean, default: true },
