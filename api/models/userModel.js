@@ -18,6 +18,8 @@ const UserSchema = new Schema({
     },
   wishlist: [mongoose.ObjectId],
   plants: [mongoose.ObjectId],
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type:Date, select:false },
   createAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
 });
